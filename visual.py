@@ -22,19 +22,20 @@ def draw():
     x,y = 0,0
     for row in grid:
         for col in row:
+            
             if col == 0:
                 pygame.draw.rect(screen, black, (x, y, sizeTile, sizeTile))
-            elif(col == 1):
+            elif col == 1:
                 pygame.draw.rect(screen, white, (x, y, sizeTile, sizeTile))
             else:
                 pygame.draw.rect(screen, red, (x, y, sizeTile, sizeTile))
+                
             pygame.draw.rect(screen, white, (x, y, sizeTile, sizeTile), 1)
             x += sizeTile
+            
         y += sizeTile
         x = 0
         
 while(True):
     draw()
     pygame.display.update()
-
-#yolo
