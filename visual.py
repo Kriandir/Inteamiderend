@@ -24,7 +24,7 @@ def draw():
         for col in row:
             if col == 0:
                 pygame.draw.rect(screen, black, (x, y, sizeTile, sizeTile))
-            else if(col == 1):
+            elif(col == 1):
                 pygame.draw.rect(screen, white, (x, y, sizeTile, sizeTile))
             else:
                 pygame.draw.rect(screen, red, (x, y, sizeTile, sizeTile))
