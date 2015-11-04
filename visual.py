@@ -36,3 +36,5 @@ def draw():
 while(True):
     draw()
     pygame.display.update()
+
+#yolo
