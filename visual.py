@@ -1,44 +1,34 @@
-import pygame,sys
-from pygame.locals import*
-from sys import exit
+import pygame
 
-pygame.init()
+# Sizes Board
+widthBoard = 17
+heightBoard = 17
+sizeTile = 20
 
-# Size Board
-widthBoard = 23
-heightBoard = 27
-
-# Maten Scherm
-widthScreen = 20*widthBoard
-heightScreen = 20*heightBoard
+# Sizes Screen
+widthScreen = sizeTile*widthBoard
+heightScreen = sizeTile*heightBoard
 
 grid = [[0]*widthBoard for n in range(heightBoard)]
 grid[4][0] = 1
 print grid
 
-widthTile = widthScreen/widthBoard
-heightTile = heightScreen/heightBoard
-
 black = (0,0,0)
 white = (255,255,255)
 screen = pygame.display.set_mode((widthScreen, heightScreen))
-
 
 def draw():
     x,y = 0,0
     for row in grid:
         for col in row:
             if col == 0:
-                pygame.draw.rect(screen, black, (x, y, widthTile, heightTile))
+                pygame.draw.rect(screen, black, (x, y, sizeTile, sizeTile))
             else:
-                pygame.draw.rect(screen, white, (x, y, widthTile, heightTile))
-            pygame.draw.rect(screen, white, (x, y, widthTile, heightTile), 1)
-
-            x += widthTile
-        y += heightTile
+                pygame.draw.rect(screen, white, (x, y, sizeTile, sizeTile))
+            pygame.draw.rect(screen, white, (x, y, sizeTile, sizeTile), 1)
+            x += sizeTile
+        y += sizeTile
         x = 0
 
-
-while True:
-    draw()
-    pygame.display.update()
+draw()
+pygame.display.update()
