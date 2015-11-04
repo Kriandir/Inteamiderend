@@ -15,6 +15,7 @@ print grid
 
 black = (0,0,0)
 white = (255,255,255)
+red = (255,0,0)
 screen = pygame.display.set_mode((widthScreen, heightScreen))
 
 def draw():
@@ -23,8 +24,10 @@ def draw():
         for col in row:
             if col == 0:
                 pygame.draw.rect(screen, black, (x, y, sizeTile, sizeTile))
-            else:
+            else if(col == 1:
                 pygame.draw.rect(screen, white, (x, y, sizeTile, sizeTile))
+            else:
+                pygame.draw.rect(screen, red, (x, y, sizeTile, sizeTile))
             pygame.draw.rect(screen, white, (x, y, sizeTile, sizeTile), 1)
             x += sizeTile
         y += sizeTile
