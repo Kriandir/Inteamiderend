@@ -29,6 +29,7 @@ def draw():
             x += sizeTile
         y += sizeTile
         x = 0
-
-draw()
-pygame.display.update()
+        
+while(True):
+    draw()
+    pygame.display.update()
