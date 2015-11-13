@@ -1,22 +1,23 @@
 import pygame
 
-class visualizationgameboard:
-    def __init__(self, widthBoard, heightBoard, sizeTile,grid):
+class visualizationGrid:
+    def __init__(self, widthBoard, heightBoard, sizeTile, grid):
         self.widthBoard = widthBoard
         self.heightBoard = heightBoard
         self.sizeTile = sizeTile
         self.grid = grid
         
-        # Sizes Screen
-        self.widthScreen = sizeTile*widthBoard
-        self.heightScreen = sizeTile*heightBoard
+        # Initializing screen.
+        widthScreen = self.sizeTile*self.widthBoard
+        heightScreen = self.sizeTile*self.heightBoard
+        self.screen = pygame.display.set_mode((widthScreen, heightScreen))
 
+        # Initializing colors.
         self.black = (0,0,0)
         self.white = (255,255,255)
         self.red = (255,0,0)
-        self.screen = pygame.display.set_mode((self.widthScreen, self.heightScreen))
 
-    def draw(self):
+    def drawGrid(self):
         x,y = 0,0
         for row in self.grid:
             for col in row:
@@ -34,4 +35,4 @@ class visualizationgameboard:
             y += self.sizeTile
             x = 0
 
-            pygame.display.update()
+        pygame.display.update()
