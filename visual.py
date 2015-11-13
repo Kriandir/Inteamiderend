@@ -10,8 +10,8 @@ widthScreen = sizeTile*widthBoard
 heightScreen = sizeTile*heightBoard
 
 grid = [[0]*widthBoard for n in range(heightBoard)]
-grid[4][0] = 1
-print grid
+##grid[4][0] = 1
+#print grid
 
 black = (0,0,0)
 white = (255,255,255)
