@@ -1,4 +1,4 @@
-import visual
+import visual1
 
 grid = [[0]*17 for n in range(17)]
 
@@ -13,4 +13,6 @@ for i in range(tile):
 
 print grid
 
-visual.draw(grid)
+
+anim = visual1.visualizationgameboard(17,17,20,grid)
+anim.draw()
