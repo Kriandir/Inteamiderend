@@ -1,11 +1,15 @@
 import visual1
 
-grid = [[0]*17 for n in range(17)]
+# Sizes Board
+widthBoard = 17
+heightBoard = 17
+sizeTile = 20
+
+grid = [[0]*widthBoard for n in range(heightBoard)]
 
 tiles = [2,3,3,3,3,3,3,3,5,5,5,7,7,7]
 
 tile =  max(tiles)
-
 
 for i in range(tile):
     for j in range(tile):
@@ -14,5 +18,7 @@ for i in range(tile):
 print grid
 
 
-anim = visual1.visualizationgameboard(17,17,20,grid)
-anim.draw()
+
+
+#anim = visual1.visualizationgameboard(widthBoard, heightBoard, sizeTile, grid)
+#anim.draw()
