@@ -11,7 +11,7 @@ for i in range(formaat):
         grid[i][j] += 1
 
 print grid
-
+visualizationgameboard.draw(grid)
 #while(True):
  #   draw()
   #  pygame.display.update()
