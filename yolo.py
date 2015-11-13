@@ -4,14 +4,13 @@ grid = [[0]*17 for n in range(17)]
 
 tiles = [2,3,3,3,3,3,3,3,5,5,5,7,7,7]
 
-formaat =  max(tiles)
+tile =  max(tiles)
 
-for i in range(formaat):
-    for j in range(formaat):
+
+for i in range(tile):
+    for j in range(tile):
         grid[i][j] += 1
 
 print grid
 
-#while(True):
- #   draw()
-  #  pygame.display.update()
+visual.draw(grid)

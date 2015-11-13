@@ -9,16 +9,14 @@ sizeTile = 20
 widthScreen = sizeTile*widthBoard
 heightScreen = sizeTile*heightBoard
 
-grid = [[0]*widthBoard for n in range(heightBoard)]
-##grid[4][0] = 1
-#print grid
+#grid = [[0]*widthBoard for n in range(heightBoard)]
 
 black = (0,0,0)
 white = (255,255,255)
 red = (255,0,0)
-screen = pygame.display.set_mode((widthScreen, heightScreen))
 
-def draw():
+def draw(grid):
+    screen = pygame.display.set_mode((widthScreen, heightScreen)) 
     x,y = 0,0
     for row in grid:
         for col in row:
@@ -36,6 +34,4 @@ def draw():
         y += sizeTile
         x = 0
         
-while(True):
-    draw()
-    pygame.display.update()
+        pygame.display.update()
