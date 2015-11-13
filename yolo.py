@@ -16,24 +16,23 @@ tile = max(tiles)
 # Coördinaten vinden waar de tegel past.
 
 #Vind een 0 in de grid.
-for y in grid:
-    for x in y:
+x,y = 0,-1
+for row in grid:
+    y += 1
+    for x in row:
         if x == 0:
             goedeplek = True # een 0 gevonden
-            # Check of
+            
+            # Check of in het bereik van de tegel alleen maar 0en staan.
             for i in range(y, y+tile):
                 for j in range(x, x+tile):
-                    if j != 0:
+                    if grid[i][j] != 0:
                         goedeplek = False
-                        break
-                if goedeplek == False:
-                    break
+                        
         if goedeplek == True:
             break
     if goedeplek == True:
         break
-                
-print x,y
 
 
 # Tegel invullen op de coördinaten.
@@ -43,8 +42,6 @@ for i in range(y, y+tile):
 
 # Gebruikte tegel uit lijst verwijderen.
 tiles.remove(tile)
-
-
 
 
 # Visualization.
