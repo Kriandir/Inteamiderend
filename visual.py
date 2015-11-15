@@ -18,8 +18,9 @@ class visualizationGrid:
         self.red = (255,0,0)
 
     def drawGrid(self):
-        x,y = 0,0
+        y = 0
         for row in self.grid:
+            x = 0
             for col in row:
 
                 if col == 0:
@@ -33,6 +34,5 @@ class visualizationGrid:
                 x += self.sizeTile
 
             y += self.sizeTile
-            x = 0
 
         pygame.display.update()
