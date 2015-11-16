@@ -6,7 +6,7 @@ heightBoard = 17
 sizeTile = 20
 
 grid = [[0]*widthBoard for n in range(heightBoard)]
-tiles = sorted([2,3,3,3,3,3,3,3,5,5,5,7,7,7], reverse=False)
+tiles = sorted([2,3,3,3,3,3,3,3,5,5,5,7,7,7], reverse=True)
 
 for tile in tiles:
 
@@ -16,11 +16,13 @@ for tile in tiles:
         y = grid.index(row)
         for x in row:
             if x == 0: # 0 gevonden
-                
+
                 # Controleren of de tegel niet buiten het bord zou vallen.
-                if y+tile >= heightBoard or x+tile >= widthBoard:
+                if y+tile > heightBoard or x+tile > widthBoard:
+
+
                     break
-                
+
                 groundZero = True
                 # Check of in het bereik van de tegel alleen maar nullen staan.
                 for i in range(y, y+tile):
@@ -30,13 +32,13 @@ for tile in tiles:
                             break
                     if groundZero == False:
                         break
-                            
+
             if groundZero == True:
                 break
         if groundZero == True:
             break
-        
-    # Tegel invullen op de coördinaten.
+
+    # Tegel invullen op de coordinaten.
     if groundZero == True:
         for i in range(y, y+tile):
             for j in range(x, x+tile):
@@ -48,5 +50,6 @@ for tile in tiles:
 
 
 # Visualization.
-visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, grid)
-visualization.drawGrid()
+while(True):
+    visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, grid)
+    visualization.drawGrid()
