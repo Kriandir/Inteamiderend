@@ -7,21 +7,27 @@ sizeTile = 20
 
 grid = [[0]*widthBoard for n in range(heightBoard)]
 tiles = sorted([2,3,3,3,3,3,3,3,5,5,5,7,7,7], reverse=True)
+colorTile = 0
 
 for tile in tiles:
 
     # Vind een 0 in de grid.
     groundZero = False
+    y = -1
     for row in grid:
-        y = grid.index(row)
-        for x in row:
-            if x == 0: # 0 gevonden
+        y += 1
+        x = -1
+        for gridValue in row:
+            x += 1
+            if gridValue == 0: # 0 gevonden
 
                 # Controleren of de tegel niet buiten het bord zou vallen.
-                if y+tile > heightBoard or x+tile > widthBoard:
-
-
+                if x+tile > widthBoard:
                     break
+                if y+tile > heightBoard:
+                    y = 0
+                    break
+
 
                 groundZero = True
                 # Check of in het bereik van de tegel alleen maar nullen staan.
@@ -37,19 +43,17 @@ for tile in tiles:
                 break
         if groundZero == True:
             break
-
     # Tegel invullen op de coordinaten.
     if groundZero == True:
         for i in range(y, y+tile):
             for j in range(x, x+tile):
-                grid[i][j] += 1
+                grid[i][j] += colorTile
 
 
-    # Gebruikte tegel uit lijst verwijderen.
-    tiles.remove(tile)
-
+    colorTile +=1
 
 # Visualization.
+
 while(True):
     visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, grid)
     visualization.drawGrid()
