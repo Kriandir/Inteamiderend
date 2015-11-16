@@ -24,9 +24,7 @@ for tile in tiles:
                 if x+tile > widthBoard or y+tile > heightBoard:
 
                     break
-                if y+tile > heightBoard:
-                    y = 0
-                    break
+            
 
 
                 groundZero = True
