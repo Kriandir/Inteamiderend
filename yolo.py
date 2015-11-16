@@ -14,18 +14,6 @@ colorTile = 1
 for tile in tiles:
     # Vind een 0 in de grid.
     groundZero = False
-
-    y = -1
-    for row in grid:
-        y += 1
-        x = -1
-        for gridValue in row:
-            x += 1
-            if gridValue == 0: # 0 gevonden
-
-                # Controleren of de tegel niet buiten het bord zou vallen.
-                if x+tile > widthBoard:
-
     y = 0
     for row in grid:
         x = 0
@@ -70,17 +58,6 @@ for tile in tiles:
 
 
     colorTile +=1
-
-# Visualization.
-
-while(True):
-    visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, grid)
-    visualization.drawGrid()
-
-                grid[i][j] = colorTile
-
-    colorTile += 1
-print grid
 
 # Visualization.
 #while(True):
