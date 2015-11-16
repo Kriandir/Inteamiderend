@@ -7,8 +7,6 @@ sizeTile = 20
 
 grid = [[0]*widthBoard for n in range(heightBoard)]
 tiles = sorted([2,3,3,3,3,3,3,3,5,5,5,7,7,7], reverse=True)
-colorTile = 0
-
 colorTile = 1
 
 for tile in tiles:
