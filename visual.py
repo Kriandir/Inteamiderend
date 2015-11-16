@@ -31,20 +31,12 @@ class visualizationGrid:
                     pygame.draw.rect(self.screen, self.black, (x, y, self.sizeTile, self.sizeTile))
                 if col >= 1:
                     pygame.draw.rect(self.screen, self.white, (x, y, self.sizeTile, self.sizeTile))
-
                 if col % 2 == 1:
                     pygame.draw.rect(self.screen, self.red, (x, y, self.sizeTile, self.sizeTile))
-
                 if col % 3 == 1:
                     pygame.draw.rect(self.screen, self.blue, (x, y, self.sizeTile, self.sizeTile))
-
                 if col % 4 == 1:
                     pygame.draw.rect(self.screen, self.purple, (x, y, self.sizeTile, self.sizeTile))
-
-
-
-
-
 
                 pygame.draw.rect(self.screen, self.green, (x, y, self.sizeTile, self.sizeTile), 1)
                 x += self.sizeTile
