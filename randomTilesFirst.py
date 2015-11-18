@@ -12,7 +12,7 @@ tiles = [2,3,3,3,3,3,3,3,5,5,5,7,7,7]
 placedTilesDict = {2:[],3:[],5:[],7:[]}
 placedTiles = []
 colorTile = 1
-trials = 10
+trials = 1
 
 def tilePlacer(tile, colorTile):
     groundZero = False
@@ -77,4 +77,4 @@ print 'Gemiddeld:',countercounter/trials
 #Open visualization.
 while(True):
     visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, grid)
-    visualization.drawGrid
+    visualization.drawGrid()
