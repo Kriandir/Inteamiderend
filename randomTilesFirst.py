@@ -12,10 +12,10 @@ tiles = [2,3,3,3,3,3,3,3,5,5,5,7,7,7]
 placedTilesDict = {2:[],3:[],5:[],7:[]}
 placedTiles = []
 colorTile = 1
+trials = 10
 
 def tilePlacer(tile, colorTile):
     groundZero = False
-    
 #Finding a zero in the grid where the tile wouldn't go outside the board.
     y = 0
     for row in grid:
@@ -36,8 +36,7 @@ def tilePlacer(tile, colorTile):
                     for i in range(y, y+tile):
                         for j in range(x, x+tile):
                             grid[i][j] += colorTile
-                    #return [x,y]
-                    return True
+                    return True #return [x,y]
                 
             x += 1
         y += 1
@@ -46,10 +45,10 @@ def tilePlacer(tile, colorTile):
         return False
     
 countercounter = 0
-trials = 100
 for i in range(trials):
     counter = 0
     tiles = [2,3,3,3,3,3,3,3,5,5,5,7,7,7]
+    
     while tiles != []:
         counter += 1
         grid = [[0]*widthBoard for n in range(heightBoard)]
@@ -69,11 +68,13 @@ for i in range(trials):
                     #x = placedTilesDict.get(placedTiles[-1])[-1][0]
             else:
                 break
+    print counter
     countercounter += counter
 
-    print counter
-print countercounter/trials
+print 'Gemiddeld:',countercounter/trials
+
+
 #Open visualization.
 while(True):
     visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, grid)
-    visualization.drawGrid()
+    visualization.drawGrid

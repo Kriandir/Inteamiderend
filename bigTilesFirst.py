@@ -7,16 +7,15 @@ sizeTile = 20
 
 grid = [[0]*widthBoard for n in range(heightBoard)]
 tiles = sorted([2,3,3,3,3,3,3,3,5,5,5,7,7,7], reverse=True)
-
 colorTile = 1
+
 for tile in tiles:
-    
 #Finding a zero in the grid where the tile wouldn't go outside the board.
     groundZero = False
+    y = 0
     for row in grid:
-        y = grid.index(row)
+        x = 0
         for gridValue in row:
-            x = row.index(gridValue)
             if gridValue == 0 and x+tile <= widthBoard and y+tile <= heightBoard:
                 groundZero = True
                 
@@ -34,9 +33,11 @@ for tile in tiles:
                             grid[i][j] += colorTile
                     colorTile +=1
                     break
-                    
+                
+            x += 1
         if groundZero:
             break
+        y += 1
         
 #Open visualization.
 while(True):
