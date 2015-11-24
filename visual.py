@@ -7,7 +7,6 @@ class visualizationGrid:
         self.sizeTile = sizeTile
         self.grid = grid
 
-
         # Initializing screen.
         widthScreen = self.sizeTile*self.widthBoard
         heightScreen = self.sizeTile*self.heightBoard
