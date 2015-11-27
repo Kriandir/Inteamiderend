@@ -47,15 +47,20 @@ def generateAllChildren(parent,tiles,colorTile):
             copyTiles.remove(tile)
             colorTile += 1
             children.append([placedTile,copyTiles,colorTile])
-    return children
+    if children:
+        return children
+    else:
+        return False
 
 def vulVolgendeTegelIn(parent,tiles,colorTile):
     if tiles == []:
         return parent
     else:
         children = generateAllChildren(parent,tiles,colorTile)
-        for child in children:
-            return vulVolgendeTegelIn(child[0],child[1],child[2])
+        if children:
+            for child in children:
+                
+                vulVolgendeTegelIn(child[0],child[1],child[2])
 
 vulVolgendeTegelIn(grid,tiles,colorTile)
 

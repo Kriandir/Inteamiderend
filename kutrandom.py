@@ -7,9 +7,12 @@ heightBoard = 17
 sizeTile = 20
 
 grid = [[0]*widthBoard for n in range(heightBoard)]
-startTiles = [2,3,3,3,3,3,3,3,5,5,5,7,7,7]
+tiles = [2,3,3,3,3,3,3,3,5,5,5,7,7,7]
+
+placedTilesDict = {2:[],3:[],5:[],7:[]}
+placedTiles = []
 colorTile = 1
-trials = 10
+trials = 5
 
 def tilePlacer(tile, colorTile):
     groundZero = False
@@ -33,38 +36,42 @@ def tilePlacer(tile, colorTile):
                     for i in range(y, y+tile):
                         for j in range(x, x+tile):
                             grid[i][j] += colorTile
-                    return True
+                    return True #return [x,y]
                 
             x += 1
         y += 1
         
     if not groundZero:
         return False
-
-
-counterCounter = 0
+    
+countercounter = 0
 for i in range(trials):
     counter = 0
-    tiles = list(startTiles)
+    tiles = [2,3,3,3,3,3,3,3,5,5,5,7,7,7]
     
-    while tiles:
+    while tiles != []:
         counter += 1
         grid = [[0]*widthBoard for n in range(heightBoard)]
-        tiles = list(startTiles)
+        tiles = [2,3,3,3,3,3,3,3,5,5,5,7,7,7]
 
-        while tiles:
-            randomTileNumber = random.randint(0,len(tiles)-1)
-            tile = tiles[randomTileNumber]
-            if tilePlacer(tile, colorTile):
-                del tiles[randomTileNumber]
-                colorTile += 1
+        for i in range(100):
+            if len(tiles)>0:
+                randomTileNumber = random.randint(0,len(tiles)-1)
+                tile = tiles[randomTileNumber]
+                #coordPlacedTile = tilePlacer(tile, colorTile)
+                #if coordPlacedTile:
+                if tilePlacer(tile, colorTile):
+                    #placedTilesDict[tile].append(coordPlacedTile)
+                    #placedTiles.append(tile)
+                    tiles.remove(tiles[randomTileNumber])
+                    colorTile += 1
+                    #x = placedTilesDict.get(placedTiles[-1])[-1][0]
             else:
                 break
-                
     print counter
-    counterCounter += counter
+    countercounter += counter
 
-print 'Gemiddeld:',counterCounter/trials
+print 'Gemiddeld:',countercounter/trials
 
 
 #Open visualization.
