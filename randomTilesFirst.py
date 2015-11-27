@@ -20,7 +20,6 @@ def tilePlacer(tile, colorTile):
         for gridValue in row:
             if gridValue == 0 and x+tile <= widthBoard and y+tile <= heightBoard:
                 groundZero = True
-                
 #Breaks loop when there is a non-zero, else fills in tile.
                 for i in range(y, y+tile):
                     for j in range(x, x+tile):
