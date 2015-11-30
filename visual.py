@@ -13,30 +13,27 @@ class visualizationGrid:
         self.screen = pygame.display.set_mode((widthScreen, heightScreen))
 
         # Initializing colors.
+
         self.black = (0,0,0)
         self.white = (255,255,255)
         self.red = (255,0,0)
         self.green = (0,255,0)
         self.blue =(0,0,255)
-        self.purple = (255,0,255)
-
+        self.pink = (255,0,255)
+        self.yellow = (255,255,0)
+        self.orange = (255,100,0)
+        self.purple = (150,0,255)
+        self.colorlist = [self.black, self.white, self.red, self.blue, self.pink, self.yellow,self.orange, self.purple]
     def drawGrid(self):
         y = 0
         for row in self.grid:
             x = 0
             for col in row:
-
+                for i in range(1,len(self.colorlist)):
+                    if col % i == 0:
+                        pygame.draw.rect(self.screen,self.colorlist[i],(x,y, self.sizeTile,self.sizeTile))
                 if col == 0:
                     pygame.draw.rect(self.screen, self.black, (x, y, self.sizeTile, self.sizeTile))
-                if col >= 1:
-                    pygame.draw.rect(self.screen, self.white, (x, y, self.sizeTile, self.sizeTile))
-                if col % 2 == 1:
-                    pygame.draw.rect(self.screen, self.red, (x, y, self.sizeTile, self.sizeTile))
-                if col % 3 == 1:
-                    pygame.draw.rect(self.screen, self.blue, (x, y, self.sizeTile, self.sizeTile))
-                if col % 4 == 1:
-                    pygame.draw.rect(self.screen, self.purple, (x, y, self.sizeTile, self.sizeTile))
-
                 pygame.draw.rect(self.screen, self.green, (x, y, self.sizeTile, self.sizeTile), 1)
                 x += self.sizeTile
 
