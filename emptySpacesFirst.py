@@ -32,7 +32,6 @@ for row in grid:
                         tiles.remove(tile)
                         colorTile += 1
                         break
-           
         x += 1
     y += 1
 

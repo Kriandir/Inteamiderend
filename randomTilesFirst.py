@@ -33,7 +33,6 @@ def tilePlacer(tile, colorTile):
                         for j in range(x, x+tile):
                             grid[i][j] += colorTile
                     return True
-                
             x += 1
         y += 1
         

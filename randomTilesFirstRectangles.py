@@ -34,7 +34,6 @@ def tilePlacer(tileX, tileY, colorTile):
                         for j in range(x, x+tileX):
                             grid[i][j] += colorTile
                     return True
-                
             x += 1
         y += 1
         
@@ -63,6 +62,7 @@ for i in range(trials):
                 del tilesY[randomTileNumber]
                 colorTile += 1
             else:
+                print tilesX
                 break
     print counter
     counterCounter += counter
