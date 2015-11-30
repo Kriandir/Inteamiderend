@@ -62,7 +62,6 @@ for i in range(trials):
                 del tilesY[randomTileNumber]
                 colorTile += 1
             else:
-                print tilesX
                 break
     print counter
     counterCounter += counter

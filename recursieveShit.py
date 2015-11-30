@@ -1,4 +1,5 @@
 import visual
+import copy
 
 #Sizes Board
 widthBoard = 17
@@ -6,8 +7,7 @@ heightBoard = 17
 sizeTile = 20
 
 emptyGrid = [[0]*widthBoard for n in range(heightBoard)]
-#tiles = sorted([2,3,3,3,3,3,3,3,5,5,5,7,7,7], reverse=True)
-tiles = [2,3]
+tiles = sorted([2,3,3,3,3,3,3,3,5,5,5,7,7,7], reverse=True)
 colorTile = 1
 
 def tilePlacer(grid,tile,colorTile):
@@ -39,34 +39,34 @@ def tilePlacer(grid,tile,colorTile):
     
 
 def generateAllChildren(parent,tiles,colorTile):
-    print 'yolo'
     children = []
-    copyTiles = list(tiles)
     for tile in tiles: #moet eigenlijk versch. waarden zijn -> set
-        parentCopy = list(parent)
-        print parentCopy
-        gridWithPlacedTile = tilePlacer(parentCopy,tile,colorTile)
+        copyParent = copy.deepcopy(parent)
+        copyTiles = copy.deepcopy(tiles)
+        gridWithPlacedTile = tilePlacer(copyParent,tile,colorTile)
         if gridWithPlacedTile:
             copyTiles.remove(tile)
             colorTile += 1
             children.append([gridWithPlacedTile,copyTiles,colorTile])
     return children
 
+
 def vulVolgendeTegelIn(parent,tiles,colorTile):
-    if tiles == []:
-        return parent
-    else:
+    if tiles:
         children = generateAllChildren(parent,tiles,colorTile)
         if children:
             for child in children:
                 vulVolgendeTegelIn(child[0],child[1],child[2])
+            else:
+                return False
         else:
             return False
+    return parent
+
 
 solution = vulVolgendeTegelIn(emptyGrid,tiles,colorTile)
-print solution
 
-###Open visualization.
-##while(True):
-##    visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, solution)
-##    visualization.drawGrid()
+#Open visualization.
+while(True):
+    visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, solution)
+    visualization.drawGrid()
