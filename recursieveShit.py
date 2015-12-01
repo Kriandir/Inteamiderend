@@ -10,8 +10,8 @@ emptyGrid = [[0]*widthBoard for n in range(heightBoard)]
 tiles = sorted([2,3,3,3,3,3,3,3,5,5,5,7,7,7], reverse=True)
 colorTile = 1
 
+#Places the tile on the first possible position in the grid. Else returns False.
 def tilePlacer(grid,tile,colorTile):
-    groundZero = False
     y = 0
     for row in grid:
         x = 0
@@ -29,42 +29,42 @@ def tilePlacer(grid,tile,colorTile):
                     else:
                         for i in range(y, y+tile):
                             for j in range(x, x+tile):
-                                grid[i][j] += colorTile
+                                grid[i][j] = colorTile
                         return grid
             x += 1
         y += 1
         
-    else:
-        return False
+    return False
     
-
+#Receives a grid and a list with tiles which are not placed yet, and returns a list with all possible children (where one more tile is placed).
 def generateAllChildren(parent,tiles,colorTile):
     children = []
-    for tile in tiles: #moet eigenlijk versch. waarden zijn -> set
+    colorTile += 1
+    copyTiles1 = list(set(copy.deepcopy(tiles))) #So that identical tiles only are used once.
+    for tile in copyTiles1:
         copyParent = copy.deepcopy(parent)
-        copyTiles = copy.deepcopy(tiles)
+        copyTiles2 = copy.deepcopy(tiles)
         gridWithPlacedTile = tilePlacer(copyParent,tile,colorTile)
         if gridWithPlacedTile:
-            copyTiles.remove(tile)
-            colorTile += 1
-            children.append([gridWithPlacedTile,copyTiles,colorTile])
+            copyTiles2.remove(tile)
+            children.append([gridWithPlacedTile,copyTiles2,colorTile])
     return children
 
 
-def vulVolgendeTegelIn(parent,tiles,colorTile):
+def searchForSolution(parent,tiles,colorTile):
     if tiles:
         children = generateAllChildren(parent,tiles,colorTile)
         if children:
             for child in children:
-                vulVolgendeTegelIn(child[0],child[1],child[2])
+                searchForSolution(child[0],child[1],child[2])
             else:
                 return False
         else:
             return False
     return parent
 
-
-solution = vulVolgendeTegelIn(emptyGrid,tiles,colorTile)
+print generateAllChildren(emptyGrid,tiles,colorTile)
+#solution = searchForSolution(emptyGrid,tiles,colorTile)
 
 #Open visualization.
 while(True):

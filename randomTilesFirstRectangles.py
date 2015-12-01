@@ -13,7 +13,6 @@ colorTile = 1
 trials = 1
 
 def tilePlacer(tileX, tileY, colorTile):
-    groundZero = False
 #Finding a zero in the grid where the tile wouldn't go outside the board.
     y = 0
     for row in grid:
@@ -32,13 +31,12 @@ def tilePlacer(tileX, tileY, colorTile):
                 else:
                     for i in range(y, y+tileY):
                         for j in range(x, x+tileX):
-                            grid[i][j] += colorTile
+                            grid[i][j] = colorTile
                     return True
             x += 1
         y += 1
         
-    if not groundZero:
-        return False
+    return False
 
 
 counterCounter = 0

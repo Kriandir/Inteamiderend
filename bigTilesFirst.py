@@ -30,7 +30,7 @@ for tile in tiles:
                 else:
                     for i in range(y, y+tile):
                         for j in range(x, x+tile):
-                            grid[i][j] += colorTile
+                            grid[i][j] = colorTile
                     colorTile +=1
                     break
                 

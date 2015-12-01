@@ -11,8 +11,8 @@ startTiles = [2,3,3,3,3,3,3,3,5,5,5,7,7,7]
 colorTile = 1
 trials = 10
 
+#Places the tile on the first possible position in the grid. Else returns False.
 def tilePlacer(tile, colorTile):
-    groundZero = False
 #Finding a zero in the grid where the tile wouldn't go outside the board.
     y = 0
     for row in grid:
@@ -31,13 +31,12 @@ def tilePlacer(tile, colorTile):
                 else:
                     for i in range(y, y+tile):
                         for j in range(x, x+tile):
-                            grid[i][j] += colorTile
+                            grid[i][j] = colorTile
                     return True
             x += 1
         y += 1
         
-    if not groundZero:
-        return False
+    return False
 
 
 counterCounter = 0
@@ -57,8 +56,7 @@ for i in range(trials):
                 del tiles[randomTileNumber]
                 colorTile += 1
             else:
-                break
-                
+                break  
     print counter
     counterCounter += counter
 

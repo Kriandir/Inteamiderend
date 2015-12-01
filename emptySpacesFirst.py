@@ -28,7 +28,7 @@ for row in grid:
                     else:
                         for i in range(y, y+tile):
                             for j in range(x, x+tile):
-                                grid[i][j] += colorTile
+                                grid[i][j] = colorTile
                         tiles.remove(tile)
                         colorTile += 1
                         break
