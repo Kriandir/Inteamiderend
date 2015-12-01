@@ -43,9 +43,9 @@ def generateAllChildren(parent,tiles,colorTile):
     copyTiles1 = list(set(copy.deepcopy(tiles))) #So that identical tiles only are used once.
     for tile in copyTiles1:
         copyParent = copy.deepcopy(parent)
-        copyTiles2 = copy.deepcopy(tiles)
         gridWithPlacedTile = tilePlacer(copyParent,tile,colorTile)
         if gridWithPlacedTile:
+            copyTiles2 = copy.deepcopy(tiles)
             copyTiles2.remove(tile)
             children.append([gridWithPlacedTile,copyTiles2,colorTile])
     return children
