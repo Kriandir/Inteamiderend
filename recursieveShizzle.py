@@ -35,7 +35,7 @@ def tilePlacer(grid,tile,colorTile,x,y):
 def generateAllChildren(parent,tiles,colorTile):
     children = []
     colorTile += 1
-    copyTiles1 = sorted(list(set(copy.deepcopy(tiles))), reverse=True) #So that identical tiles only are used once.
+    copyTiles1 = sorted(list(set(copy.deepcopy(tiles))),reverse=True) #So that identical tiles only are used once.
     y = 0
     for row in parent:
         x = 0
@@ -49,8 +49,8 @@ def generateAllChildren(parent,tiles,colorTile):
                         copyTiles2.remove(tile)
                         children.append([gridWithPlacedTile,copyTiles2,colorTile])
                 break
-
             x += 1
+            
         if gridValue == 0:
             break
         y += 1
@@ -70,14 +70,9 @@ def searchForSolution(parent,tiles,colorTile):
                 return False
         else:
             return False
-    else:
-        #visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, parent)
-        #visualization.drawGrid()
-        sys.exit()
+    #visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, parent)
+    #visualization.drawGrid()
+    sys.exit()
 
 searchForSolution(emptyGrid,tiles,colorTile)
 #solution = cProfile.run('searchForSolution(emptyGrid,tiles,colorTile)')
-#Open visualization.
-# while(True):
-#     visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, solution)
-#     visualization.drawGrid()

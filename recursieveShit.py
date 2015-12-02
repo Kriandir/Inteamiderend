@@ -1,7 +1,7 @@
 import visual
 import copy
 import sys
-import cProfile
+#import cProfile
 
 #Sizes Board
 widthBoard = 17
@@ -54,13 +54,10 @@ def generateAllChildren(parent,tiles,colorTile):
 
 
 def searchForSolution(parent,tiles,colorTile):
-    counter = 0
-    print tiles
     if tiles:
         children = generateAllChildren(parent,tiles,colorTile)
         if children:
             for child in children:
-                counter += 1
                 visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, child[0])
                 visualization.drawGrid()
                 searchForSolution(child[0],child[1],child[2])
@@ -68,17 +65,8 @@ def searchForSolution(parent,tiles,colorTile):
                 return False
         else:
             return False
-    else:
-        #visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, parent)
-        #visualization.drawGrid()
-        print counter
-        sys.exit()
-        return parent
+    sys.exit()
     
 searchForSolution(emptyGrid,tiles,colorTile)
 
 #solution = cProfile.run('searchForSolution(emptyGrid,tiles,colorTile)')
-#Open visualization.
-while(True):
-    visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, solution)
-    visualization.drawGrid()
