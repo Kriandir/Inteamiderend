@@ -16,6 +16,8 @@ colorTile = 0
 def tilePlacer(grid,tile,colorTile,x,y):
     groundZero = True
     if x+tile <= widthBoard and y+tile <= heightBoard:
+        # print x+tile
+        # print tile
         for i in range(y, y+tile):
             for j in range(x, x+tile):
                 if grid[i][j] > 0:
@@ -28,9 +30,9 @@ def tilePlacer(grid,tile,colorTile,x,y):
                 for j in range(x, x+tile):
                     grid[i][j] = colorTile
             return grid
-       
+
     return False
-    
+
 #Receives a grid and a list with tiles which are not placed yet, and returns a list with all possible children (where one more tile is placed).
 def generateAllChildren(parent,tiles,colorTile):
     children = []
@@ -40,6 +42,7 @@ def generateAllChildren(parent,tiles,colorTile):
     for row in parent:
         x = 0
         for gridValue in row:
+            print x
             if gridValue == 0:
                 for tile in copyTiles1:
                     copyParent = copy.deepcopy(parent)
@@ -48,20 +51,26 @@ def generateAllChildren(parent,tiles,colorTile):
                         copyTiles2 = copy.deepcopy(tiles)
                         copyTiles2.remove(tile)
                         children.append([gridWithPlacedTile,copyTiles2,colorTile])
+
+                break
+
             x += 1
+        if gridValue == 0:
+            break
+
         y += 1
-        
+
+
+
     return children
 
 
 def searchForSolution(parent,tiles,colorTile):
-    counter = 0
     print tiles
     if tiles:
         children = generateAllChildren(parent,tiles,colorTile)
         if children:
             for child in children:
-                counter += 1
                 visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, child[0])
                 visualization.drawGrid()
                 searchForSolution(child[0],child[1],child[2])
@@ -72,14 +81,14 @@ def searchForSolution(parent,tiles,colorTile):
     else:
         #visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, parent)
         #visualization.drawGrid()
-        print counter
         sys.exit()
         return parent
-    
-#searchForSolution(emptyGrid,tiles,colorTile)
-print generateAllChildren(emptyGrid,tiles,colorTile)
+
+searchForSolution(emptyGrid,tiles,colorTile)
+# emptyGrid = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0]]
+# print generateAllChildren(emptyGrid,tiles,colorTile)
 #solution = cProfile.run('searchForSolution(emptyGrid,tiles,colorTile)')
 #Open visualization.
-while(True):
-    visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, solution)
-    visualization.drawGrid()
+# while(True):
+#     visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, solution)
+#     visualization.drawGrid()
