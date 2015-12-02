@@ -51,8 +51,8 @@ def generateAllChildren(parent,tilesX,tilesY,colorTile):
                     if gridWithPlacedTile:
                         copyTilesX2 = copy.deepcopy(tilesX)
                         copyTilesY2 = copy.deepcopy(tilesY)
-                        copyTilesX2.remove(tileX)
-                        copyTilesY2.remove(tileY)
+                        del copyTilesX2[i]
+                        del copyTilesY2[i]
                         children.append([gridWithPlacedTile,copyTilesX2,copyTilesY2,colorTile])
                 break
 
