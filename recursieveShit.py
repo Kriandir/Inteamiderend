@@ -7,8 +7,8 @@ heightBoard = 17
 sizeTile = 20
 
 emptyGrid = [[0]*widthBoard for n in range(heightBoard)]
-tiles = sorted([2,3,3,3,3,3,3,3,5,5,5,7,7,7], reverse=True)
-colorTile = 1
+tiles = [7,7,7,5,5,5,3,3,3,3,3,3,3,2]
+colorTile = 0
 
 #Places the tile on the first possible position in the grid. Else returns False.
 def tilePlacer(grid,tile,colorTile):
@@ -40,7 +40,7 @@ def tilePlacer(grid,tile,colorTile):
 def generateAllChildren(parent,tiles,colorTile):
     children = []
     colorTile += 1
-    copyTiles1 = list(set(copy.deepcopy(tiles))) #So that identical tiles only are used once.
+    copyTiles1 = sorted(list(set(copy.deepcopy(tiles))), reverse=True) #So that identical tiles only are used once.
     for tile in copyTiles1:
         copyParent = copy.deepcopy(parent)
         gridWithPlacedTile = tilePlacer(copyParent,tile,colorTile)
@@ -52,6 +52,7 @@ def generateAllChildren(parent,tiles,colorTile):
 
 
 def searchForSolution(parent,tiles,colorTile):
+    print tiles
     if tiles:
         children = generateAllChildren(parent,tiles,colorTile)
         if children:
@@ -63,8 +64,8 @@ def searchForSolution(parent,tiles,colorTile):
             return False
     return parent
 
-print generateAllChildren(emptyGrid,tiles,colorTile)
-#solution = searchForSolution(emptyGrid,tiles,colorTile)
+#print generateAllChildren(emptyGrid,tiles,colorTile)
+solution = searchForSolution(emptyGrid,tiles,colorTile)
 
 #Open visualization.
 while(True):
