@@ -1,7 +1,7 @@
 import visual
 import copy
 import sys
-import cProfile
+#import cProfile
 
 #Sizes Board
 widthBoard = 17
@@ -16,8 +16,6 @@ colorTile = 0
 def tilePlacer(grid,tile,colorTile,x,y):
     groundZero = True
     if x+tile <= widthBoard and y+tile <= heightBoard:
-        # print x+tile
-        # print tile
         for i in range(y, y+tile):
             for j in range(x, x+tile):
                 if grid[i][j] > 0:
@@ -42,7 +40,6 @@ def generateAllChildren(parent,tiles,colorTile):
     for row in parent:
         x = 0
         for gridValue in row:
-            print x
             if gridValue == 0:
                 for tile in copyTiles1:
                     copyParent = copy.deepcopy(parent)
@@ -51,22 +48,17 @@ def generateAllChildren(parent,tiles,colorTile):
                         copyTiles2 = copy.deepcopy(tiles)
                         copyTiles2.remove(tile)
                         children.append([gridWithPlacedTile,copyTiles2,colorTile])
-
                 break
 
             x += 1
         if gridValue == 0:
             break
-
         y += 1
-
-
-
+        
     return children
 
 
 def searchForSolution(parent,tiles,colorTile):
-    print tiles
     if tiles:
         children = generateAllChildren(parent,tiles,colorTile)
         if children:
@@ -82,11 +74,8 @@ def searchForSolution(parent,tiles,colorTile):
         #visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, parent)
         #visualization.drawGrid()
         sys.exit()
-        return parent
 
 searchForSolution(emptyGrid,tiles,colorTile)
-# emptyGrid = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0]]
-# print generateAllChildren(emptyGrid,tiles,colorTile)
 #solution = cProfile.run('searchForSolution(emptyGrid,tiles,colorTile)')
 #Open visualization.
 # while(True):
