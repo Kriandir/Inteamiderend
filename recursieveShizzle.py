@@ -1,6 +1,5 @@
 import visual
 import copy
-import sys
 #import cProfile
 
 #Sizes Board
@@ -16,16 +15,16 @@ colorTile = 0
 def tilePlacer(grid,tile,colorTile,x,y):
     groundZero = True
     if x+tile <= widthBoard and y+tile <= heightBoard:
-        for i in range(y, y+tile):
-            for j in range(x, x+tile):
+        for i in range(y,y+tile):
+            for j in range(x,x+tile):
                 if grid[i][j] > 0:
                     groundZero = False
                     break
             if not groundZero:
                 break
         else:
-            for i in range(y, y+tile):
-                for j in range(x, x+tile):
+            for i in range(y,y+tile):
+                for j in range(x,x+tile):
                     grid[i][j] = colorTile
             return grid
 
@@ -61,18 +60,18 @@ def generateAllChildren(parent,tiles,colorTile):
 def searchForSolution(parent,tiles,colorTile):
     if tiles:
         children = generateAllChildren(parent,tiles,colorTile)
-        if children:
-            for child in children:
-                visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, child[0])
-                visualization.drawGrid()
-                searchForSolution(child[0],child[1],child[2])
-            else:
-                return False
+        for child in children:
+            solution = searchForSolution(child[0],child[1],child[2])
+            visualization = visual.visualizationGrid(widthBoard,heightBoard,sizeTile,child[0])
+            visualization.drawGrid()
+            if solution:
+                return solution
         else:
             return False
-    #visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, parent)
-    #visualization.drawGrid()
-    sys.exit()
+    return parent
 
-searchForSolution(emptyGrid,tiles,colorTile)
+solution = searchForSolution(emptyGrid,tiles,colorTile)
+
+visualization = visual.visualizationGrid(widthBoard,heightBoard,sizeTile,solution)
+visualization.drawGrid()
 #solution = cProfile.run('searchForSolution(emptyGrid,tiles,colorTile)')

@@ -1,16 +1,26 @@
 import visual
 import copy
-import sys
 #import cProfile
 
+#Niet meer outcommenten -> functie?
+
+
 #Sizes Board
+#widthBoard = 17
+#heightBoard = 17
 widthBoard = 23
 heightBoard = 27
+#widthBoard = 55
+#heightBoard = 56
 sizeTile = 20
 
 emptyGrid = [[0]*widthBoard for n in range(heightBoard)]
+#tilesX = tiles = [7,7,7,5,5,5,3,3,3,3,3,3,3,2]
+#tilesY = tiles = [7,7,7,5,5,5,3,3,3,3,3,3,3,2]
 tilesX = [10,9,9,8,8,7,7,6,5,4,4,3,3,2,1]
 tilesY = [10,9,8,8,8,7,6,6,5,10,4,6,3,2,1]
+#tilesX = [20,19,19,18,16,16,14,14,12,12,10,9,9,7,7,6,5,4,2,1]
+#tilesY = [21,20,18,17,17,15,15,13,13,11,11,10,8,8,6,5,4,3,3,2]
 colorTile = 0
 
 #Places the tile on the first possible position in the grid. Else returns False.
@@ -36,7 +46,7 @@ def tilePlacer(grid,x,y,tileX,tileY,colorTile):
 def generateAllChildren(parent,tilesX,tilesY,colorTile):
     children = []
     colorTile += 1
-    copyTilesX1 = copy.deepcopy(tilesX) #So that identical tiles only are used once.
+    copyTilesX1 = copy.deepcopy(tilesX)
     copyTilesY1 = copy.deepcopy(tilesY)
     y = 0
     for row in parent:
@@ -54,7 +64,7 @@ def generateAllChildren(parent,tilesX,tilesY,colorTile):
                         del copyTilesX2[i]
                         del copyTilesY2[i]
                         children.append([gridWithPlacedTile,copyTilesX2,copyTilesY2,colorTile])
-                break
+                break #return children
 
             x += 1
         if gridValue == 0:
@@ -67,23 +77,18 @@ def generateAllChildren(parent,tilesX,tilesY,colorTile):
 def searchForSolution(parent,tilesX,tilesY,colorTile):
     if tilesX:
         children = generateAllChildren(parent,tilesX,tilesY,colorTile)
-        if children:
-            for child in children:
-                visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, child[0])
-                visualization.drawGrid()
-                searchForSolution(child[0],child[1],child[2],child[3])
-            else:
-                return False
+        for child in children:
+            visualization = visual.visualizationGrid(widthBoard,heightBoard,sizeTile,child[0])
+            visualization.drawGrid()
+            solution = searchForSolution(child[0],child[1],child[2],child[3])
+            if solution:
+                return solution
         else:
             return False
-    else:
-        #visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, parent)
-        #visualization.drawGrid()
-        sys.exit()
+    return parent
 
-searchForSolution(emptyGrid,tilesX,tilesY,colorTile)
+solution = searchForSolution(emptyGrid,tilesX,tilesY,colorTile)
+
+visualization = visual.visualizationGrid(widthBoard,heightBoard,sizeTile,solution)
+visualization.drawGrid()
 #solution = cProfile.run('searchForSolution(emptyGrid,tiles,colorTile)')
-#Open visualization.
-# while(True):
-#     visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, solution)
-#     visualization.drawGrid()
