@@ -57,7 +57,6 @@ def searchForSolution(parent,tiles,colorTile):
     if tiles:
         children = generateAllChildren(parent,tiles,colorTile)
         for child in children:
-            print tiles
             solution = searchForSolution(child[0],child[1],child[2])
             visualization = visual.visualizationGrid(widthBoard,heightBoard,sizeTile,child[0])
             visualization.drawGrid()
