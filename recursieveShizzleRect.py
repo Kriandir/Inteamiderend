@@ -83,4 +83,4 @@ def solveBoard(board,vis):
     solution = searchForSolution(emptyGrid,tiles,colorTile)
     visual.visualizationGrid(widthBoard,heightBoard,sizeTile,solution).drawGrid()
     
-solveBoard(1,True)
+solveBoard(1,False)
