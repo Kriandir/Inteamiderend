@@ -6,19 +6,19 @@ import copy
 
 
 #Sizes Board
-#widthBoard = 17
-#heightBoard = 17
-widthBoard = 23
-heightBoard = 27
+widthBoard = 17
+heightBoard = 17
+#widthBoard = 23
+#heightBoard = 27
 #widthBoard = 55
 #heightBoard = 56
 sizeTile = 20
 
 emptyGrid = [[0]*widthBoard for n in range(heightBoard)]
-#tilesX = tiles = [7,7,7,5,5,5,3,3,3,3,3,3,3,2]
-#tilesY = tiles = [7,7,7,5,5,5,3,3,3,3,3,3,3,2]
-tilesX = [10,9,9,8,8,7,7,6,5,4,4,3,3,2,1]
-tilesY = [10,9,8,8,8,7,6,6,5,10,4,6,3,2,1]
+tilesX = tiles = [7,7,7,5,5,5,3,3,3,3,3,3,3,2]
+tilesY = tiles = [7,7,7,5,5,5,3,3,3,3,3,3,3,2]
+#tilesX = [10,9,9,8,8,7,7,6,5,4,4,3,3,2,1]
+#tilesY = [10,9,8,8,8,7,6,6,5,10,4,6,3,2,1]
 #tilesX = [20,19,19,18,16,16,14,14,12,12,10,9,9,7,7,6,5,4,2,1]
 #tilesY = [21,20,18,17,17,15,15,13,13,11,11,10,8,8,6,5,4,3,3,2]
 colorTile = 0
@@ -64,20 +64,17 @@ def generateAllChildren(parent,tilesX,tilesY,colorTile):
                         del copyTilesX2[i]
                         del copyTilesY2[i]
                         children.append([gridWithPlacedTile,copyTilesX2,copyTilesY2,colorTile])
-                break #return children
+                return children
 
             x += 1
-        if gridValue == 0:
-            break
         y += 1
-        
-    return children
 
 
 def searchForSolution(parent,tilesX,tilesY,colorTile):
     if tilesX:
         children = generateAllChildren(parent,tilesX,tilesY,colorTile)
         for child in children:
+            print tilesX
             visualization = visual.visualizationGrid(widthBoard,heightBoard,sizeTile,child[0])
             visualization.drawGrid()
             solution = searchForSolution(child[0],child[1],child[2],child[3])

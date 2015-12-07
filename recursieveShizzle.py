@@ -47,20 +47,17 @@ def generateAllChildren(parent,tiles,colorTile):
                         copyTiles2 = copy.deepcopy(tiles)
                         copyTiles2.remove(tile)
                         children.append([gridWithPlacedTile,copyTiles2,colorTile])
-                break
-            x += 1
+                return children
             
-        if gridValue == 0:
-            break
+            x += 1
         y += 1
-        
-    return children
 
 
 def searchForSolution(parent,tiles,colorTile):
     if tiles:
         children = generateAllChildren(parent,tiles,colorTile)
         for child in children:
+            print tiles
             solution = searchForSolution(child[0],child[1],child[2])
             visualization = visual.visualizationGrid(widthBoard,heightBoard,sizeTile,child[0])
             visualization.drawGrid()
