@@ -18,7 +18,7 @@ def solveBoard(board,showVisual):
         heightBoard = 56
         tiles = [[20,21],[19,20],[19,18],[18,17],[16,17],[16,15],[14,15],[14,13],[12,13],[12,11],[10,11],[9,10],[9,8],[7,8],[7,6],[6,5],[5,4],[4,3],[2,3],[1,2]]
         sizeTile = 10
-    elif board == 4: # Eerste bord VU.
+    elif board == 4: #Eerste bord VU.
         widthBoard = 12
         heightBoard = 17
         tiles = [[5,5],[6,4],[6,4],[5,4],[5,3],[5,3],[7,2],[6,2],[6,2],[5,2],[4,2],[3,2],[5,1],[4,1],[3,1],[2,1]]
@@ -62,9 +62,36 @@ def solveBoard(board,showVisual):
                 x += 1
             y += 1
 
+    def checkBoard(grid,tiles):
+        xvalues = []
+        for tile in tiles:
+            xvalues.append(tile[0])
+        lowX = min(xvalues)
+
+        reeksen = []
+        for row in grid:
+            x = 0
+            reeks = 0
+            for gridValue in row:
+                if gridValue == 0:
+                    reeks += 1
+                    if x == widthBoard-1:
+                      reeksen.append(reeks)
+                if gridValue > 0:
+                    if reeks > 0:
+                        reeksen.append(reeks)
+                    reeks = 0
+                x += 1
+        if min(reeksen) < lowX:
+            return False
+
+        return True  
+
 #Recursive function for depth-first search for the solution of the board.
     def searchForSolution(parent,tiles,colorTile):
         if tiles:
+            if checkBoard(parent,tiles) == False:
+                return False
             children = generateAllChildren(parent,tiles,colorTile)
             for child in children:
                 if showVisual:
@@ -79,4 +106,4 @@ def solveBoard(board,showVisual):
     solution = searchForSolution(emptyGrid,tiles,colorTile)
     visual.visualizationGrid(widthBoard,heightBoard,sizeTile,solution).drawGrid()
     
-solveBoard(1,True)
+solveBoard(2,False)
