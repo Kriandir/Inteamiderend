@@ -77,7 +77,7 @@ def solveBoard(board,showVisual):
                 x += 1
             y += 1
 
-
+#Checks whole board to see if there are smaller spaces in x direction than the smallest tile.
     def checkBoard(grid,tiles):
         xValues = []
         for tile in tiles:
