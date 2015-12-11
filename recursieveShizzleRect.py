@@ -23,17 +23,12 @@ def solveBoard(board,showVisual):
         heightBoard = 17
         tiles = [[5,5],[6,4],[6,4],[5,4],[5,3],[5,3],[7,2],[6,2],[6,2],[5,2],[4,2],[3,2],[5,1],[5,1],[4,1],[3,1],[2,1]]
         sizeTile = 20
+    elif board == 5:
+        widthBoard = 19
+        heightBoard = 20
+        tiles = [[6,6],[6,6],[6,6],[6,6],[6,5],[6,4],[6,4],[5,4],[6,3],[6,3],[6,3],[5,3],[6,2],[6,2],[4,3],[3,3],[6,1],[6,1],[3,2],[3,2]]
+        sizeTile = 20
     elif board == 6:
-        widthBoard = 19
-        heightBoard = 20
-        tiles = [[6,6],[6,6],[6,6],[6,6],[6,5],[6,4],[6,4],[5,4],[6,3],[6,3],[6,3],[5,3],[6,2],[6,2],[4,3],[3,3],[6,1],[6,1],[3,2],[3,2]]
-        sizeTile = 20
-    elif board == 7:
-        widthBoard = 19
-        heightBoard = 20
-        tiles = [[6,6],[6,6],[6,6],[6,6],[6,5],[6,4],[6,4],[5,4],[6,3],[6,3],[6,3],[5,3],[6,2],[6,2],[4,3],[3,3],[6,1],[6,1],[3,2],[3,2]]
-        sizeTile = 20
-    elif board == 8:
         widthBoard = 37
         heightBoard = 22
         tiles = [[13,7],[8,7],[11,5],[10,5],[7,6],[7,6],[13,3],[12,3],[7,5],[7,5],[6,5],[6,5],[6,5],[7,4],[6,4],[6,4],[7,3],[7,3],[5,4],[6,3],[5,3],[5,3],[5,3],[7,2],[5,2],[4,2],[2,2],[3,1],[3,1]]
@@ -76,6 +71,8 @@ def solveBoard(board,showVisual):
 
                 x += 1
             y += 1
+            
+        return [] #Only happens if the board is already full, but there are still tiles left, then there are no children.
 
 #Checks whole board to see if there are smaller spaces in x direction than the smallest tile.
     def checkBoard(grid,tiles):
@@ -119,7 +116,10 @@ def solveBoard(board,showVisual):
 
     solution = searchForSolution(emptyGrid,tiles,colorTile)
     
-    while(True):
-        visual.visualizationGrid(widthBoard,heightBoard,sizeTile,solution).drawGrid()
+    if solution:
+        while(True):
+            visual.visualizationGrid(widthBoard,heightBoard,sizeTile,solution).drawGrid()
+    else:
+        print 'This board has no solution!'
     
-solveBoard(1,False)
+solveBoard(4,False)
