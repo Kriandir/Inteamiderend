@@ -2,6 +2,13 @@ import visual
 import copy
 import itertools
 
+#profiler -> waar zit tijd in?
+#hoeveel oplossingen zijn er?
+#tegels draaien
+#state space
+#hoeveel iteraties
+#kleuren verbeteren
+
 def solveBoard(board,showVisual):
     if board == 1:
         widthBoard = 17
