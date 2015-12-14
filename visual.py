@@ -1,6 +1,6 @@
 import pygame
 
-class visualizationGrid:
+class visGrid:
     def __init__(self, widthBoard, heightBoard, sizeTile, grid):
         #Sizes board.
         self.widthBoard = widthBoard

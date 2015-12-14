@@ -82,7 +82,6 @@ def solveBoard(board,showVisual,allSolutions):
 #Receives a grid and a list of tiles, and returns a list with all possible children (where one more tile is placed).
     def generateAllChildren(parent,tiles,colorTile):
         children = []
-        colorTile += 1
         uniqueTiles = list(tiles for tiles,_ in itertools.groupby(tiles)) #To avoid duplicate children.
         y = 0
         for row in parent:
@@ -90,20 +89,22 @@ def solveBoard(board,showVisual,allSolutions):
             for gridValue in row:
                 if gridValue == 0:
                     for tile in uniqueTiles:
-                        copyParent = [d[:] for d in parent]
+                        copyParent = [copyRow[:] for copyRow in parent]
                         tileX = tile[0]
                         tileY = tile[1]
-                        gridWithPlacedTile = tilePlacer(copyParent,x,y,tileX,tileY,colorTile)
+                        gridWithPlacedTile = tilePlacer(copyParent,x,y,tileX,\
+                                                        tileY,colorTile)
                         if gridWithPlacedTile:
                             copyTiles = list(tiles)
                             copyTiles.remove(tile)
-                            children.append([gridWithPlacedTile,copyTiles,colorTile])
+                            children.append([gridWithPlacedTile,copyTiles])
                         if tileX != tileY:
-                            gridWithPlacedTile = tilePlacer(copyParent,x,y,tileY,tileX,colorTile)
+                            gridWithPlacedTile = tilePlacer(\
+                                copyParent,x,y,tileY,tileX,colorTile)
                             if gridWithPlacedTile:
                                 copyTiles = list(tiles)
                                 copyTiles.remove(tile)
-                                children.append([gridWithPlacedTile,copyTiles,colorTile])
+                                children.append([gridWithPlacedTile,copyTiles])
                     return children
 
                 x += 1
@@ -143,13 +144,17 @@ def solveBoard(board,showVisual,allSolutions):
 #Recursive function for depth-first search for the solution of the board.
     def searchForSolution(parent,tiles,colorTile):
         if tiles:
+            colorTile += 1
             if not checkBoard(parent,tiles):
                 return False
             children = generateAllChildren(parent,tiles,colorTile)
             for child in children:
+                gridChild = child[0]
+                tilesChild = child[1]
                 if showVisual:
-                    visual.visualizationGrid(widthBoard,heightBoard,sizeTile,child[0]).drawGrid()
-                solution = searchForSolution(child[0],child[1],child[2])
+                    visual.visGrid(widthBoard,heightBoard,sizeTile,\
+                                   gridChild).drawGrid()
+                solution = searchForSolution(gridChild,tilesChild,colorTile)
                 if solution:
                     return solution
             else:
@@ -170,18 +175,18 @@ def solveBoard(board,showVisual,allSolutions):
             'This board has no solution!'
         else:
             for i in s.peek():
-                visual.visualizationGrid(widthBoard,heightBoard,sizeTile,i).drawGrid()
+                visual.visGrid(widthBoard,heightBoard,sizeTile,i).drawGrid()
                 time.sleep(0.5)
     else:
         solution = searchForSolution(emptyGrid,tiles,colorTile)
         if solution:
             print 'yolo'
             #while(True):
-               #visual.visualizationGrid(widthBoard,heightBoard,sizeTile,solution).drawGrid()
-        #else:
-         #   print 'This board has no solution!'
+             #  visual.visualizationGrid(widthBoard,heightBoard,sizeTile,solution).drawGrid()
+        else:
+            print 'This board has no solution!'
             
     print 'Total iterations:',searchForSolution.counter
 
-cProfile.run('solveBoard(2,False,False)')  
+cProfile.run('solveBoard(3,False,False)')  
 #solveBoard(2,False,False)
