@@ -1,6 +1,7 @@
 import visual
 import copy
 import itertools
+import cProfile
 
 #profiler -> waar zit tijd in?
 #hoeveel oplossingen zijn er?
@@ -12,35 +13,44 @@ import itertools
 #meer comments en niet meer dan 80 tekens achter elkaar
 
 def solveBoard(board,showVisual):
+#Initializing boards.
     if board == 1:
         widthBoard = 17
         heightBoard = 17
-        tiles = [[7,7],[7,7],[7,7],[5,5],[5,5],[5,5],[3,3],[3,3],[3,3],[3,3],[3,3],[3,3],[3,3],[2,2]]
+        tiles = [[7,7],[7,7],[7,7],[5,5],[5,5],[5,5],[3,3],[3,3],[3,3],[3,3],\
+                 [3,3],[3,3],[3,3],[2,2]]
         sizeTile = 20
     elif board == 2:
         widthBoard = 23
         heightBoard = 27
-        tiles = [[10,10],[9,9],[9,8],[8,8],[8,8],[7,7],[7,6],[6,6],[5,5],[4,10],[4,4],[3,6],[3,3],[2,2],[1,1]]
+        tiles = [[10,10],[9,9],[9,8],[8,8],[8,8],[7,7],[7,6],[6,6],[5,5],\
+                 [4,10],[4,4],[3,6],[3,3],[2,2],[1,1]]
         sizeTile = 20
     elif board == 3:
         widthBoard = 55
         heightBoard = 56
-        tiles = [[20,21],[19,20],[19,18],[18,17],[16,17],[16,15],[14,15],[14,13],[12,13],[12,11],[10,11],[9,10],[9,8],[7,8],[7,6],[6,5],[5,4],[4,3],[2,3],[1,2]]
+        tiles = [[20,21],[19,20],[19,18],[18,17],[16,17],[16,15],[14,15],\
+                 [14,13],[12,13],[12,11],[10,11],[9,10],[9,8],[7,8],[7,6],\
+                 [6,5],[5,4],[4,3],[2,3],[1,2]]
         sizeTile = 10
     elif board == 4:
         widthBoard = 12
         heightBoard = 17
-        tiles = [[5,5],[6,4],[6,4],[5,4],[5,3],[5,3],[7,2],[6,2],[6,2],[5,2],[4,2],[3,2],[5,1],[5,1],[4,1],[3,1],[2,1]]
+        tiles = [[5,5],[6,4],[6,4],[5,4],[5,3],[5,3],[7,2],[6,2],[6,2],[5,2],\
+                 [4,2],[3,2],[5,1],[5,1],[4,1],[3,1],[2,1]]
         sizeTile = 20
     elif board == 5:
         widthBoard = 19
         heightBoard = 20
-        tiles = [[6,6],[6,6],[6,6],[6,6],[6,5],[6,4],[6,4],[5,4],[6,3],[6,3],[6,3],[5,3],[6,2],[6,2],[4,3],[3,3],[6,1],[6,1],[3,2],[3,2]]
+        tiles = [[6,6],[6,6],[6,6],[6,6],[6,5],[6,4],[6,4],[5,4],[6,3],[6,3],\
+                 [6,3],[5,3],[6,2],[6,2],[4,3],[3,3],[6,1],[6,1],[3,2],[3,2]]
         sizeTile = 20
     elif board == 6:
         widthBoard = 37
         heightBoard = 22
-        tiles = [[13,7],[8,7],[11,5],[10,5],[7,6],[7,6],[13,3],[12,3],[7,5],[7,5],[6,5],[6,5],[6,5],[7,4],[6,4],[6,4],[7,3],[7,3],[5,4],[6,3],[5,3],[5,3],[5,3],[7,2],[5,2],[4,2],[2,2],[3,1],[3,1]]
+        tiles = [[13,7],[8,7],[11,5],[10,5],[7,6],[7,6],[13,3],[12,3],[7,5],\
+                 [7,5],[6,5],[6,5],[6,5],[7,4],[6,4],[6,4],[7,3],[7,3],[5,4],\
+                 [6,3],[5,3],[5,3],[5,3],[7,2],[5,2],[4,2],[2,2],[3,1],[3,1]]
         sizeTile = 15
                 
     emptyGrid = [[0]*widthBoard for n in range(heightBoard)]
@@ -123,9 +133,10 @@ def solveBoard(board,showVisual):
     solution = searchForSolution(emptyGrid,tiles,colorTile)
     
     if solution:
-        while(True):
-            visual.visualizationGrid(widthBoard,heightBoard,sizeTile,solution).drawGrid()
+        print 'yolo'
+        #while(True):
+        #    visual.visualizationGrid(widthBoard,heightBoard,sizeTile,solution).drawGrid()
     else:
         print 'This board has no solution!'
-    
-solveBoard(2,False)
+cProfile.run('solveBoard(1,False)')
+#cProfile.run('re.compile("solveBoard(2,False)")')
