@@ -8,6 +8,8 @@ import itertools
 #state space
 #hoeveel iteraties
 #kleuren verbeteren
+#kernwoord: volgorde tiles
+#meer comments en niet meer dan 80 tekens achter elkaar
 
 def solveBoard(board,showVisual):
     if board == 1:
@@ -83,11 +85,8 @@ def solveBoard(board,showVisual):
 
 #Checks whole board to see if there are smaller spaces in x direction than the smallest tile.
     def checkBoard(grid,tiles):
-        xValues = []
-        for tile in tiles:
-            xValues.append(tile[0])
-        lowX = min(xValues)
-
+        lowX = min(tiles)[0]
+        
         for row in grid:
             x = 0
             chain = 0
@@ -129,4 +128,4 @@ def solveBoard(board,showVisual):
     else:
         print 'This board has no solution!'
     
-solveBoard(4,False)
+solveBoard(2,False)
