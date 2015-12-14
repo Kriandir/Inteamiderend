@@ -1,7 +1,7 @@
 import visual
 import copy
 import itertools
-import cProfile
+import time
 
 #profiler -> waar zit tijd in?
 #hoeveel oplossingen zijn er?
@@ -12,7 +12,24 @@ import cProfile
 #kernwoord: volgorde tiles
 #meer comments en niet meer dan 80 tekens achter elkaar
 
-def solveBoard(board,showVisual):
+
+class Counter(object) :
+    def __init__(self, fun) :
+        self._fun = fun
+        self.counter=0
+    def __call__(self,*args, **kwargs) :
+        self.counter += 1
+        return self._fun(*args, **kwargs)
+
+class Solvedsolutions():
+    def __init__(self):
+        self.solutions = []
+    def addsolution(self,solution):
+        self.solutions.append(solution)
+    def peek(self):
+        return self.solutions
+
+def solveBoard(board,showVisual,allSolutions):
 #Initializing boards.
     if board == 1:
         widthBoard = 17
@@ -52,9 +69,10 @@ def solveBoard(board,showVisual):
                  [7,5],[6,5],[6,5],[6,5],[7,4],[6,4],[6,4],[7,3],[7,3],[5,4],\
                  [6,3],[5,3],[5,3],[5,3],[7,2],[5,2],[4,2],[2,2],[3,1],[3,1]]
         sizeTile = 15
-                
+
     emptyGrid = [[0]*widthBoard for n in range(heightBoard)]
     colorTile = 0
+    s = Solvedsolutions()
 
 #If it fits, places the tile on the given position in the grid. Else returns False.
     def tilePlacer(grid,x,y,tileX,tileY,colorTile):
@@ -86,17 +104,31 @@ def solveBoard(board,showVisual):
                             copyTiles = list(tiles)
                             copyTiles.remove(tile)
                             children.append([gridWithPlacedTile,copyTiles,colorTile])
+                        if tileX != tileY:
+                            gridWithPlacedTile = tilePlacer(copyParent,x,y,tileY,tileX,colorTile)
+                            if gridWithPlacedTile:
+                                copyTiles = list(tiles)
+                                copyTiles.remove(tile)
+                                children.append([gridWithPlacedTile,copyTiles,colorTile])
                     return children
 
                 x += 1
             y += 1
-            
+
         return [] #Only happens if the board is already full, but there are still tiles left, then there are no children.
 
 #Checks whole board to see if there are smaller spaces in x direction than the smallest tile.
     def checkBoard(grid,tiles):
         lowX = min(tiles)[0]
-        
+        lowYlist =[]
+        for tile in tiles:
+            lowYlist.append(tile[1])
+        lowY = min(lowYlist)
+        if lowX < lowY:
+            lowest = lowX
+        else:
+            lowest = lowY
+            
         for row in grid:
             x = 0
             chain = 0
@@ -104,15 +136,15 @@ def solveBoard(board,showVisual):
                 if gridValue == 0:
                     chain += 1
                     if x == widthBoard-1:
-                        if chain < lowX:
+                        if chain < lowest:
                             return False
                 if gridValue > 0:
-                    if lowX > chain > 0:
+                    if lowest > chain > 0:
                         return False
                     chain = 0
                 x += 1
 
-        return True 
+        return True
 
 #Recursive function for depth-first search for the solution of the board.
     def searchForSolution(parent,tiles,colorTile):
@@ -128,15 +160,32 @@ def solveBoard(board,showVisual):
                     return solution
             else:
                 return False
-        return parent
-
-    solution = searchForSolution(emptyGrid,tiles,colorTile)
+            
+        if allSolutions:
+            s.addsolution(parent)
+            return False
+        else:
+            return parent
     
-    if solution:
-        print 'yolo'
-        #while(True):
-        #    visual.visualizationGrid(widthBoard,heightBoard,sizeTile,solution).drawGrid()
+    searchForSolution = Counter(searchForSolution)
+    
+    if allSolutions:
+        searchForSolution(emptyGrid,tiles,colorTile)
+        print len(s.peek())
+        if s.peek == []:
+            'This board has no solution!'
+        else:
+            for i in s.peek():
+                visual.visualizationGrid(widthBoard,heightBoard,sizeTile,i).drawGrid()
+                time.sleep(1)
     else:
-        print 'This board has no solution!'
-cProfile.run('solveBoard(1,False)')
-#cProfile.run('re.compile("solveBoard(2,False)")')
+        solution = searchForSolution(emptyGrid,tiles,colorTile)
+        if solution:
+            while(True):
+               visual.visualizationGrid(widthBoard,heightBoard,sizeTile,solution).drawGrid()
+        else:
+            print 'This board has no solution!'
+            
+    print searchForSolution.counter
+    
+solveBoard(5,False,False)
