@@ -2,29 +2,23 @@ import visual
 import copy
 import itertools
 import time
+import cProfile
 
-#profiler -> waar zit tijd in?
-#hoeveel oplossingen zijn er?
-#tegels draaien
-#state space
-#hoeveel iteraties
 #kleuren verbeteren
-#kernwoord: volgorde tiles
 #meer comments en niet meer dan 80 tekens achter elkaar
 
-
-class Counter(object) :
+class counter(object) :
     def __init__(self, fun) :
         self._fun = fun
-        self.counter=0
+        self.counter = 0
     def __call__(self,*args, **kwargs) :
         self.counter += 1
         return self._fun(*args, **kwargs)
 
-class Solvedsolutions():
+class solvedSolutions():
     def __init__(self):
         self.solutions = []
-    def addsolution(self,solution):
+    def addSolution(self,solution):
         self.solutions.append(solution)
     def peek(self):
         return self.solutions
@@ -72,7 +66,7 @@ def solveBoard(board,showVisual,allSolutions):
 
     emptyGrid = [[0]*widthBoard for n in range(heightBoard)]
     colorTile = 0
-    s = Solvedsolutions()
+    s = solvedSolutions()
 
 #If it fits, places the tile on the given position in the grid. Else returns False.
     def tilePlacer(grid,x,y,tileX,tileY,colorTile):
@@ -96,7 +90,7 @@ def solveBoard(board,showVisual,allSolutions):
             for gridValue in row:
                 if gridValue == 0:
                     for tile in uniqueTiles:
-                        copyParent = copy.deepcopy(parent)
+                        copyParent = [d[:] for d in parent]
                         tileX = tile[0]
                         tileY = tile[1]
                         gridWithPlacedTile = tilePlacer(copyParent,x,y,tileX,tileY,colorTile)
@@ -162,30 +156,32 @@ def solveBoard(board,showVisual,allSolutions):
                 return False
             
         if allSolutions:
-            s.addsolution(parent)
+            s.addSolution(parent)
             return False
         else:
             return parent
     
-    searchForSolution = Counter(searchForSolution)
+    searchForSolution = counter(searchForSolution)
     
     if allSolutions:
         searchForSolution(emptyGrid,tiles,colorTile)
-        print len(s.peek())
+        print 'Amount of solutions:',len(s.peek())
         if s.peek == []:
             'This board has no solution!'
         else:
             for i in s.peek():
                 visual.visualizationGrid(widthBoard,heightBoard,sizeTile,i).drawGrid()
-                time.sleep(1)
+                time.sleep(0.5)
     else:
         solution = searchForSolution(emptyGrid,tiles,colorTile)
         if solution:
-            while(True):
-               visual.visualizationGrid(widthBoard,heightBoard,sizeTile,solution).drawGrid()
-        else:
-            print 'This board has no solution!'
+            print 'yolo'
+            #while(True):
+               #visual.visualizationGrid(widthBoard,heightBoard,sizeTile,solution).drawGrid()
+        #else:
+         #   print 'This board has no solution!'
             
-    print searchForSolution.counter
-    
-solveBoard(5,False,False)
+    print 'Total iterations:',searchForSolution.counter
+
+cProfile.run('solveBoard(2,False,False)')  
+#solveBoard(2,False,False)
