@@ -2,7 +2,6 @@ import boards
 import visual
 import itertools
 import time
-#import cProfile
 
 # Class to count the total amount of iterations.
 class iterationCounter():
@@ -31,6 +30,7 @@ def solveBoard(board,showVisual,allSolutions,turning):
     sizeTile = chosenBoard[3]
     emptyGrid = [[0]*widthBoard for n in range(heightBoard)]
     colorTile = 0
+    
     sols = solvedSolutions()
     counter = iterationCounter()
 
@@ -175,8 +175,4 @@ def solveBoard(board,showVisual,allSolutions,turning):
         print 'This board has no solution!'
             
     
-
-solveBoard(4,True,True,True)
-
-
-#cProfile.run('solveBoard(3,False,False,True)') 
+solveBoard(11,False,True,True) #boardNumber,visualization,allSolutions,turning
