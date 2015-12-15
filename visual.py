@@ -18,14 +18,16 @@ class visGrid:
         self.black = (0,0,0)
         self.white = (255,255,255)
         self.red = (255,0,0)
-        self.green = (0,255,0)
-        self.blue =(0,0,255)
-        self.pink = (255,0,255)
+        self.green = (0,200,0)
+        self.blue =(100,180,255)
+        self.pink = (255,0,200)
         self.yellow = (255,255,0)
-        self.orange = (200,100,0)
         self.purple = (150,0,255)
+        self.grey = (192,192,192)
+        self.orange = (255,150,0)
+        self.turquoise = (0,255,180)
         
-        self.colors = [self.white, self.red, self.blue, self.pink, self.yellow,self.orange, self.purple]
+        self.colors = [self.green,self.red,self.turquoise,self.blue,self.pink,self.yellow,self.purple,self.grey,self.orange]
 
     def drawGrid(self):
         numberOfColors = len(self.colors)
@@ -41,7 +43,7 @@ class visGrid:
                     pygame.draw.rect(self.screen, self.black, (x, y, self.sizeTile, self.sizeTile))
 
                 #Rooster maken.
-                pygame.draw.rect(self.screen, self.green, (x, y, self.sizeTile, self.sizeTile), 1)
+                pygame.draw.rect(self.screen, self.black, (x, y, self.sizeTile, self.sizeTile), 1)
                 
                 x += self.sizeTile
             y += self.sizeTile

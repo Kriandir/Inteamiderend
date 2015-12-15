@@ -65,5 +65,5 @@ print 'Gemiddeld:',counterCounter/trials
 
 #Open visualization.
 while(True):
-    visualization = visual.visualizationGrid(widthBoard, heightBoard, sizeTile, grid)
+    visualization = visual.visGrid(widthBoard, heightBoard, sizeTile, grid)
     visualization.drawGrid()
