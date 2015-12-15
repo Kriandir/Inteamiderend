@@ -1,30 +1,32 @@
 import visual
-import copy
 import itertools
 import time
 import cProfile
 
 #kleuren verbeteren
-#meer comments en niet meer dan 80 tekens achter elkaar
 
-class counter(object) :
-    def __init__(self, fun) :
-        self._fun = fun
+# Class to count the total amount of iterations.
+class iterationCounter():
+    def __init__(self):
         self.counter = 0
-    def __call__(self,*args, **kwargs) :
+    def oneCount(self):
         self.counter += 1
-        return self._fun(*args, **kwargs)
+    def giveCounter(self):
+        return self.counter
 
+# Class to collect all solutions of the board in a list.
 class solvedSolutions():
     def __init__(self):
         self.solutions = []
     def addSolution(self,solution):
         self.solutions.append(solution)
-    def peek(self):
+    def giveSolutions(self):
         return self.solutions
 
-def solveBoard(board,showVisual,allSolutions):
-#Initializing boards.
+
+
+def solveBoard(board,showVisual,allSolutions,turning):
+# Initializing boards.
     if board == 1:
         widthBoard = 17
         heightBoard = 17
@@ -44,6 +46,8 @@ def solveBoard(board,showVisual,allSolutions):
                  [14,13],[12,13],[12,11],[10,11],[9,10],[9,8],[7,8],[7,6],\
                  [6,5],[5,4],[4,3],[2,3],[1,2]]
         sizeTile = 10
+
+# Extra boards from the VU.
     elif board == 4:
         widthBoard = 12
         heightBoard = 17
@@ -63,12 +67,30 @@ def solveBoard(board,showVisual,allSolutions):
                  [7,5],[6,5],[6,5],[6,5],[7,4],[6,4],[6,4],[7,3],[7,3],[5,4],\
                  [6,3],[5,3],[5,3],[5,3],[7,2],[5,2],[4,2],[2,2],[3,1],[3,1]]
         sizeTile = 15
+    elif board == 7:
+        widthBoard = 31
+        heightBoard = 20
+        tiles = [[10,6],[8,5],[8,5],[6,6],[6,6],[10,3],[10,3],[6,5],[7,4],\
+                 [7,4],[5,5],[8,3],[6,4],[7,3],[5,4],[5,4],[6,3],[6,3],[6,3],\
+                 [5,3],[4,3],[3,3],[3,3],[3,2],[5,1],[4,1],[2,2],[2,2],[3,1],\
+                 [3,1]]
+    elif board == 8:
+        widthBoard = 27
+        heightBoard = 27
+        tiles = [[9,9],[9,9],[9,7],[9,6],[8,6],[7,6],[7,6],[9,4],[9,4],[9,3],\
+                 [9,3],[8,3],[5,4],[9,2],[9,2],[6,3],[6,2],[4,3],[9,1],[9,1],\
+                 [9,1],[4,2],[6,1],[6,1],[3,2],[5,1],[4,1],[2,2],[2,1],[2,1]]
+
 
     emptyGrid = [[0]*widthBoard for n in range(heightBoard)]
     colorTile = 0
-    s = solvedSolutions()
+    sols = solvedSolutions()
+    counter = iterationCounter()
 
-#If it fits, places the tile on the given position in the grid. Else returns False.
+
+    
+# If it fits, places the given tile on the given position in the grid.
+# Else returns False.
     def tilePlacer(grid,x,y,tileX,tileY,colorTile):
         if x+tileX <= widthBoard and y+tileY <= heightBoard:
             for i in range(y, y+tileY):
@@ -79,114 +101,137 @@ def solveBoard(board,showVisual,allSolutions):
                         grid[i][j] = colorTile
             return grid
 
-#Receives a grid and a list of tiles, and returns a list with all possible children (where one more tile is placed).
+
+
+# Receives a grid and a list of tiles that are still left.
     def generateAllChildren(parent,tiles,colorTile):
         children = []
-        uniqueTiles = list(tiles for tiles,_ in itertools.groupby(tiles)) #To avoid duplicate children.
+                 
+# To avoid duplicate children.
+        uniqueTiles = list(tiles for tiles,_ in itertools.groupby(tiles))
+
+# Searches for the first empty space in the grid.
         y = 0
         for row in parent:
             x = 0
             for gridValue in row:
                 if gridValue == 0:
+
+# For every tile, makes a new grid with this tile on this space, if possible.
                     for tile in uniqueTiles:
-                        copyParent = [copyRow[:] for copyRow in parent]
+                        copyParent = [list(copyRow) for copyRow in parent]
                         tileX = tile[0]
                         tileY = tile[1]
-                        gridWithPlacedTile = tilePlacer(copyParent,x,y,tileX,\
-                                                        tileY,colorTile)
-                        if gridWithPlacedTile:
+                        childGrid = tilePlacer(copyParent,x,y,tileX,tileY,\
+                                               colorTile)
+                        if childGrid:
                             copyTiles = list(tiles)
                             copyTiles.remove(tile)
-                            children.append([gridWithPlacedTile,copyTiles])
-                        if tileX != tileY:
-                            gridWithPlacedTile = tilePlacer(\
-                                copyParent,x,y,tileY,tileX,colorTile)
-                            if gridWithPlacedTile:
+                            children.append([childGrid,copyTiles])
+
+# If it's a rect, makes another child with the tile turned around, if possible.
+                        if turning and tileX != tileY:
+                            childGrid = tilePlacer(copyParent,x,y,tileY,tileX,\
+                                                   colorTile)
+                            if childGrid:
                                 copyTiles = list(tiles)
                                 copyTiles.remove(tile)
-                                children.append([gridWithPlacedTile,copyTiles])
+                                children.append([childGrid,copyTiles])
                     return children
 
                 x += 1
             y += 1
 
-        return [] #Only happens if the board is already full, but there are still tiles left, then there are no children.
+        return []
 
-#Checks whole board to see if there are smaller spaces in x direction than the smallest tile.
+
+
     def checkBoard(grid,tiles):
-        lowX = min(tiles)[0]
-        lowYlist =[]
-        for tile in tiles:
-            lowYlist.append(tile[1])
-        lowY = min(lowYlist)
-        if lowX < lowY:
-            lowest = lowX
+                 
+# Calculates the smallest width or height of the tiles left.
+        if turning:
+            low = min(min(tile) for tile in tiles)
         else:
-            lowest = lowY
-            
+            low = min(tiles)[0]
+
+# Returns False if there is a space that is smaller than this. Else True.
         for row in grid:
             x = 0
-            chain = 0
+            sizeSpace = 0
             for gridValue in row:
                 if gridValue == 0:
-                    chain += 1
+                    sizeSpace += 1
                     if x == widthBoard-1:
-                        if chain < lowest:
+                        if sizeSpace < low:
                             return False
                 if gridValue > 0:
-                    if lowest > chain > 0:
+                    if low > sizeSpace > 0:
                         return False
-                    chain = 0
+                    sizeSpace = 0
                 x += 1
 
         return True
 
-#Recursive function for depth-first search for the solution of the board.
-    def searchForSolution(parent,tiles,colorTile):
+
+
+# Recursive function for depth-first search for the solutions of the board.
+    def searchForSolutions(parent,tiles,colorTile):
+        counter.oneCount()
         if tiles:
             colorTile += 1
+
+# If chosen, shows visualization during calculating.
+            if showVisual:
+                visual.visGrid(widthBoard,heightBoard,sizeTile,\
+                               parent).drawGrid()
+
+# Prunes the branch if checkBoard returns False.
             if not checkBoard(parent,tiles):
                 return False
+
+# For every child, calls this function again. If the function gives a solution,
+# passes it through. At the end of a layer, returns False.
             children = generateAllChildren(parent,tiles,colorTile)
             for child in children:
                 gridChild = child[0]
                 tilesChild = child[1]
-                if showVisual:
-                    visual.visGrid(widthBoard,heightBoard,sizeTile,\
-                                   gridChild).drawGrid()
-                solution = searchForSolution(gridChild,tilesChild,colorTile)
+                solution = searchForSolutions(gridChild,tilesChild,colorTile) 
                 if solution:
-                    return solution
+                    return solution     
             else:
                 return False
-            
+
+# If a solution is found, adds it to the list or returns it.
         if allSolutions:
-            s.addSolution(parent)
+            sols.addSolution(parent)
             return False
         else:
             return parent
-    
-    searchForSolution = counter(searchForSolution)
+
+
+
+    solution = searchForSolutions(emptyGrid,tiles,colorTile)
+    print 'Total iterations:',counter.giveCounter()
     
     if allSolutions:
-        searchForSolution(emptyGrid,tiles,colorTile)
-        print 'Amount of solutions:',len(s.peek())
-        if s.peek == []:
-            'This board has no solution!'
-        else:
-            for i in s.peek():
-                visual.visGrid(widthBoard,heightBoard,sizeTile,i).drawGrid()
-                time.sleep(0.5)
-    else:
-        solution = searchForSolution(emptyGrid,tiles,colorTile)
-        if solution:
-            print 'yolo'
-            #while(True):
-             #  visual.visualizationGrid(widthBoard,heightBoard,sizeTile,solution).drawGrid()
-        else:
-            print 'This board has no solution!'
-            
-    print 'Total iterations:',searchForSolution.counter
+        solutions = sols.giveSolutions()   
+        print 'Amount of solutions:',len(solutions)
 
-cProfile.run('solveBoard(3,False,False)')  
-#solveBoard(2,False,False)
+        for sol in solutions:
+            visual.visGrid(widthBoard,heightBoard,sizeTile,sol).drawGrid()
+            time.sleep(0.5)
+            
+    elif solution:
+        pass
+        #while True:
+         #   visual.visGrid(widthBoard,heightBoard,sizeTile,solution).drawGrid()
+
+    else:
+        print 'This board has no solution!'
+            
+    
+
+#solveBoard(2,False,False,True)
+
+
+cProfile.run('solveBoard(3,False,False,True)') 
