@@ -9,7 +9,17 @@ sizeTile = 20
 grid = [[0]*widthBoard for n in range(heightBoard)]
 startTiles = [2,3,3,3,3,3,3,3,5,5,5,7,7,7]
 colorTile = 1
-trials = 10
+trials = 1
+
+class iterationCounter():
+    def __init__(self):
+        self.counter = 0
+    def oneCount(self):
+        self.counter += 1
+    def giveCounts(self):
+        return self.counter
+
+cntr = iterationCounter()
 
 #Places the tile on the first possible position in the grid. Else returns False.
 def tilePlacer(tile, colorTile):
@@ -50,6 +60,7 @@ for i in range(trials):
         tiles = list(startTiles)
 
         while tiles:
+            cntr.oneCount()
             randomTileNumber = random.randint(0,len(tiles)-1)
             tile = tiles[randomTileNumber]
             if tilePlacer(tile, colorTile):
@@ -60,8 +71,8 @@ for i in range(trials):
     print counter
     counterCounter += counter
 
-print 'Gemiddeld:',counterCounter/trials
-
+print 'Average:',counterCounter/trials
+print 'Amount of iterations:',cntr.giveCounts()
 
 #Open visualization.
 while(True):

@@ -175,4 +175,4 @@ def solveBoard(board,showVisual,allSolutions,turning):
         print 'This board has no solution!'
             
     
-solveBoard(11,False,True,True) #boardNumber,visualization,allSolutions,turning
+solveBoard(2,True,False,False) #boardNumber,visualization,allSolutions,turning
